@@ -57,6 +57,21 @@
             font-size: 1.5em;
             display: inline-block;
         }
+        .music-control {
+            margin-top: 20px;
+        }
+        .music-control button {
+            background-color: #ffcc00;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .music-control button:hover {
+            background-color: #e6b800;
+        }
         @media (max-width: 768px) {
             h1 { font-size: 2.5em; }
             #countdown { font-size: 2em; padding: 10px 20px; }
@@ -87,6 +102,14 @@
         <a href="https://calendar.google.com/calendar/r/eventedit?text=Abrorjon+%26+Ominaxonning+to'yi&dates=20250414T000000Z/20250414T050000Z&details=Istiqbol,+Toshkent&location=https://yandex.ru/maps/org/31352212585" target="_blank">Toʻyni Google Kalendariga qo‘shish</a>
     </div>
 
+    <div class="music-control">
+        <audio id="bg-music" loop>
+            <source src="https://cdn10.deliciouspeaches.com/get/cuts/04/18/04182096ddfbca7688c64b8d1829c30f/59812627/Muhammad_Al_Muqit_-_Wedding_b128f0d179.mp3" type="audio/mpeg">
+            Sizning brauzeringiz audioni qo‘llab-quvvatlamaydi.
+        </audio>
+        <button onclick="toggleMusic()">Musiqani yoqish/o‘chirish</button>
+    </div>
+
     <script>
         // Countdown timer
         function updateCountdown() {
@@ -107,6 +130,16 @@
 
         // Dynamically update Telegram share URL
         document.getElementById('telegram-share').href = 'https://t.me/share/url?url=' + encodeURIComponent(window.location.href);
+
+        // Music control
+        function toggleMusic() {
+            let audio = document.getElementById("bg-music");
+            if (audio.paused) {
+                audio.play().catch(error => console.log("Avtoplay bloklandi, tugmadan foydalaning."));
+            } else {
+                audio.pause();
+            }
+        }
     </script>
 </body>
 </html>
