@@ -18,6 +18,8 @@
         h1 {
             font-size: 3em;
             text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
+            opacity: 0;
+            animation: fadeIn 2s ease-in-out forwards;
         }
         #countdown {
             font-size: 2.5em;
@@ -29,12 +31,17 @@
             border-radius: 10px;
             white-space: pre-line;
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-            animation: fadeIn 1s ease-in-out;
+            animation: fadeIn 3s ease-in-out forwards;
         }
         .info {
             font-size: 1.8em;
             margin: 10px 0;
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+            opacity: 0;
+            animation: fadeIn 3s ease-in-out forwards;
+        }
+        .flashing-text {
+            animation: flashing 1.5s infinite alternate;
         }
         a {
             color: #ffcc00;
@@ -52,40 +59,71 @@
         .share-btns {
             margin-top: 20px;
         }
-        .share-btns a {
-            margin: 10px;
-            font-size: 1.5em;
-            display: inline-block;
-        }
         .music-control {
             margin-top: 20px;
         }
-        .music-control button {
+        .music-control .play-pause-btn {
             background-color: #ffcc00;
             color: black;
             border: none;
-            padding: 10px 20px;
-            font-size: 1.2em;
+            padding: 15px 30px;
+            font-size: 1.5em;
             cursor: pointer;
-            border-radius: 5px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
         }
-        .music-control button:hover {
+        .music-control .play-pause-btn:hover {
             background-color: #e6b800;
         }
-        @media (max-width: 768px) {
-            h1 { font-size: 2.5em; }
-            #countdown { font-size: 2em; padding: 10px 20px; }
-            .info { font-size: 1.5em; }
+        .music-control .play-pause-btn:active {
+            box-shadow: none;
+        }
+        .candles {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .candle {
+            width: 20px;
+            height: 60px;
+            background-color: #ffcc00;
+            position: relative;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(255, 204, 0, 0.8);
+        }
+        .flame {
+            width: 15px;
+            height: 20px;
+            background-color: orange;
+            border-radius: 50%;
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: flameFlicker 0.5s infinite alternate;
         }
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
+        @keyframes flashing {
+            from { color: #ffcc00; }
+            to { color: #fff; }
+        }
+        @keyframes flameFlicker {
+            0% { transform: translateX(-50%) scale(1); opacity: 0.8; }
+            100% { transform: translateX(-50%) scale(1.1); opacity: 1; }
+        }
     </style>
 </head>
 <body>
     <h1>Abrorjon & Ominaxonning toʻyi</h1>
-    <p class="info">Toʻy boshlanishiga qolgan vaqt:</p>
+    <p class="info flashing-text">Toʻy boshlanishiga qolgan vaqt:</p>
     <div id="countdown"></div>
 
     <p class="info"><strong>Sana:</strong> 2025-yil 14-aprel</p>
@@ -107,11 +145,18 @@
             <source src="https://cdn10.deliciouspeaches.com/get/cuts/04/18/04182096ddfbca7688c64b8d1829c30f/59812627/Muhammad_Al_Muqit_-_Wedding_b128f0d179.mp3" type="audio/mpeg">
             Sizning brauzeringiz audioni qo‘llab-quvvatlamaydi.
         </audio>
-        <button onclick="toggleMusic()">Musiqani yoqish/o‘chirish</button>
+        <button class="play-pause-btn" onclick="toggleMusic()">
+            <span id="music-icon">▶️</span>
+        </button>
+    </div>
+
+    <div class="candles">
+        <div class="candle"><div class="flame"></div></div>
+        <div class="candle"><div class="flame"></div></div>
+        <div class="candle"><div class="flame"></div></div>
     </div>
 
     <script>
-        // Countdown timer
         function updateCountdown() {
             const weddingDate = new Date("April 14, 2025 00:00:00").getTime();
             const now = new Date().getTime();
@@ -128,16 +173,15 @@
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
-        // Dynamically update Telegram share URL
-        document.getElementById('telegram-share').href = 'https://t.me/share/url?url=' + encodeURIComponent(window.location.href);
-
-        // Music control
         function toggleMusic() {
             let audio = document.getElementById("bg-music");
+            let icon = document.getElementById("music-icon");
             if (audio.paused) {
-                audio.play().catch(error => console.log("Avtoplay bloklandi, tugmadan foydalaning."));
+                audio.play().catch(error => console.log("Avtoplay bloklandi."));
+                icon.textContent = "⏸️"; // Изменим иконку на паузу
             } else {
                 audio.pause();
+                icon.textContent = "▶️"; // Возвращаем иконку воспроизведения
             }
         }
     </script>
