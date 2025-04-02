@@ -14,6 +14,7 @@
             margin: 0;
             padding: 20px;
             position: relative;
+            min-height: 100vh;
         }
         h1 {
             font-size: 3em;
@@ -61,6 +62,8 @@
         }
         .music-control {
             margin-top: 20px;
+            position: relative;
+            z-index: 10;
         }
         .music-control .play-pause-btn {
             background-color: #ffcc00;
@@ -73,20 +76,23 @@
             transition: all 0.3s ease;
             display: inline-block;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            transform: scale(1);
         }
         .music-control .play-pause-btn:hover {
             background-color: #e6b800;
+            transform: scale(1.1);
         }
         .music-control .play-pause-btn:active {
             box-shadow: none;
         }
         .candles {
             position: fixed;
-            bottom: 0;
+            bottom: 10px;
             width: 100%;
             display: flex;
             justify-content: center;
             gap: 20px;
+            z-index: 5;
         }
         .candle {
             width: 20px;
@@ -106,6 +112,12 @@
             left: 50%;
             transform: translateX(-50%);
             animation: flameFlicker 0.5s infinite alternate;
+        }
+        .yandex-logo {
+            position: fixed;
+            bottom: 70px;
+            right: 20px;
+            z-index: 10;
         }
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -136,7 +148,6 @@
     </p>
 
     <div class="share-btns">
-        <a href="https://t.me/share/url?url=" id="telegram-share" target="_blank">Telegramda ulashish</a>
         <a href="https://calendar.google.com/calendar/r/eventedit?text=Abrorjon+%26+Ominaxonning+to'yi&dates=20250414T000000Z/20250414T050000Z&details=Istiqbol,+Toshkent&location=https://yandex.ru/maps/org/31352212585" target="_blank">Toʻyni Google Kalendariga qo‘shish</a>
     </div>
 
@@ -156,6 +167,10 @@
         <div class="candle"><div class="flame"></div></div>
     </div>
 
+    <a href="https://yandex.ru/maps/org/31352212585?si=agjc14ekatzahgkdt1v5vpny54" target="_blank">
+        <img class="yandex-logo" src="https://upload.wikimedia.org/wikipedia/commons/5/58/Yandex_logo.png" alt="Yandex Map" width="50">
+    </a>
+
     <script>
         function updateCountdown() {
             const weddingDate = new Date("April 14, 2025 00:00:00").getTime();
@@ -167,8 +182,16 @@
             const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-            document.getElementById("countdown").innerHTML = 
-                `${days} kun : ${hours} soat\n${minutes} daqiqa : ${seconds} soniya`;
+            if (timeLeft > 0) {
+                document.getElementById("countdown").innerHTML = 
+                    `${days} kun : ${hours} soat\n${minutes} daqiqa : ${seconds} soniya`;
+            } else if (timeLeft <= 0 && timeLeft > -86400000) {
+                // Свадьба началась
+                document.getElementById("countdown").innerHTML = "To'y boshlanishi kechqurun";
+            } else {
+                // Свадьба закончилась на следующий день
+                document.getElementById("countdown").innerHTML = "To'y tugadi";
+            }
         }
         setInterval(updateCountdown, 1000);
         updateCountdown();
