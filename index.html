@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Abrorjon & Ominaxon larning toʻyi</title>
-    <link href="https://fonts.googleapis.com/css2?family=Popular+Script&display=swap" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Monotype+Corsiva&display=swap');
         body {
-            font-family: "Popular Script", cursive;
+            font-family: "Monotype Corsiva", cursive;
             text-align: center;  
             background: url('https://nerminelcin.wordpress.com/wp-content/uploads/2013/05/fon.jpg') no-repeat center center fixed;
             background-size: cover;
@@ -19,7 +19,6 @@
         h1 {
             font-size: 3em;
             text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
-            opacity: 0;
             animation: fadeIn 2s ease-in-out forwards;
         }
         #countdown {
@@ -38,79 +37,42 @@
             font-size: 1.8em;
             margin: 10px 0;
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-            opacity: 0;
             animation: fadeIn 3s ease-in-out forwards;
         }
         .flashing-text {
             animation: flashing 1.5s infinite alternate;
         }
-        a {
-            color: #ffcc00;
-            text-decoration: none;
-            font-weight: bold;
-            border: 2px solid #ffcc00;
-            padding: 10px 20px;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-        }
-        a:hover {
-            background-color: #ffcc00;
-            color: #000;
-        }
-        .share-btns {
-            margin-top: 20px;
-        }
-        .music-control {
-            margin-top: 20px;
-        }
-        .music-control .play-pause-btn {
+        .play-pause-btn {
+            width: 50px;
+            height: 50px;
+            font-size: 18px;
+            font-family: "Monotype Corsiva", cursive;
+            border-radius: 50%;
+            border: 2px solid #9f4f68;
             background-color: #ffcc00;
             color: black;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1.5em;
             cursor: pointer;
-            border-radius: 50%;
             transition: all 0.3s ease;
-            display: inline-block;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
         }
-        .music-control .play-pause-btn:hover {
+        .play-pause-btn:hover {
             background-color: #e6b800;
         }
-        .music-control .play-pause-btn:active {
-            box-shadow: none;
+        .logo img {
+            width: 100px;
+            border-radius: 10px;
+            animation: flashing 1.5s infinite alternate; /* Мигающий эффект */
         }
-        .candles {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
+
+        /* Стили для ссылки локации */
+        a {
+            text-decoration: none;
+            color: #fff; /* стандартный цвет */
+            transition: color 0.3s;
         }
-        .candle {
-            width: 20px;
-            height: 60px;
-            background-color: #ffcc00;
-            position: relative;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(255, 204, 0, 0.8);
+        a:hover {
+            color: #ffcc00; /* желтый цвет при наведении */
         }
-        .flame {
-            width: 15px;
-            height: 20px;
-            background-color: orange;
-            border-radius: 50%;
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: flameFlicker 0.5s infinite alternate;
-        }
-        .logo {
-            margin-top: 20px;
-        }
+
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -119,15 +81,11 @@
             from { color: #ffcc00; }
             to { color: #fff; }
         }
-        @keyframes flameFlicker {
-            0% { transform: translateX(-50%) scale(1); opacity: 0.8; }
-            100% { transform: translateX(-50%) scale(1.1); opacity: 1; }
-        }
     </style>
 </head>
 <body>
     <h1>Abrorjon & Ominaxonning toʻyi</h1>
-    <p class="info flashing-text">To'y boshlanishiga qolgan vaqt:</p>
+    <p class="info flashing-text" id="countdown-text">To'y boshlanishiga qolgan vaqt:</p>
     <div id="countdown"></div>
 
     <p class="info"><strong>Sana:</strong> 2025-yil 14-aprel</p>
@@ -149,17 +107,14 @@
         </button>
     </div>
 
-    <div class="candles">
-        <div class="candle"><div class="flame"></div></div>
-        <div class="candle"><div class="flame"></div></div>
-        <div class="candle"><div class="flame"></div></div>
-    </div>
-
     <div class="logo">
         <a href="https://yandex.ru/maps/org/31352212585?si=agjc14ekatzahgkdt1v5vpny54" target="_blank">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Yandex_Logo_2019.svg/1200px-Yandex_Logo_2019.svg.png" alt="Yandex" width="100">
+            <img src="https://mtort.ru/templates/modern/img/icon-yandex-maps-marker.svg" alt="Yandex">
         </a>
     </div>
+
+    <!-- Добавлено слово "Яндекс Карта" -->
+    <p class="info"><strong>Яндекс Карта</strong></p>
 
     <script>
         function updateCountdown() {
@@ -172,12 +127,12 @@
             const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-            document.getElementById("countdown").innerHTML = 
-                `${days} kun : ${hours} soat\n${minutes} daqiqa : ${seconds} soniya`;
-
-            // Когда время истекает
-            if (timeLeft < 0) {
-                document.getElementById("countdown").innerHTML = "To'y davom etmoqda, shoshiling!";
+            if (timeLeft > 0) {
+                document.getElementById("countdown").innerHTML = 
+                    `${days} kun : ${hours} soat\n${minutes} daqiqa : ${seconds} soniya`;
+            } else {
+                document.getElementById("countdown-text").innerHTML = "To'y davom etmoqda, shoshiling!";
+                document.getElementById("countdown").innerHTML = "";
             }
         }
         setInterval(updateCountdown, 1000);
@@ -188,10 +143,10 @@
             let icon = document.getElementById("music-icon");
             if (audio.paused) {
                 audio.play().catch(error => console.log("Avtoplay bloklandi."));
-                icon.textContent = "⏸️"; // Изменим иконку на паузу
+                icon.textContent = "⏸️";
             } else {
                 audio.pause();
-                icon.textContent = "▶️"; // Возвращаем иконку воспроизведения
+                icon.textContent = "▶️";
             }
         }
     </script>
